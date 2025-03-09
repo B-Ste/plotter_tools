@@ -5,13 +5,22 @@
 
 #include <stdio.h>
 
-typedef struct SVG {
+typedef struct {
     FILE* f;
 } SVG;
+
+typedef enum _SVG_ELEMENT_TYPE {
+    RECT
+} SVG_ELEMENT_TYPE;
+
+typedef struct {
+    void* element;
+    SVG_ELEMENT_TYPE type;
+} SVG_ELEMENT;
 
 int svg_create(SVG*, char*);
 int svg_finalize(SVG*);
 
-int svg_rect(SVG*, double, double, double, double);
+int svg_add(SVG*, SVG_ELEMENT*);
 
 #endif
