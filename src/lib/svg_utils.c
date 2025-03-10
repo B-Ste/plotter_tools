@@ -1,39 +1,44 @@
 #include "svg_utils.h"
 
-typedef struct {
-    double x, y, width, height;
-} SVG_RECT;
+typedef struct _SVG {
+    FILE* f;
+} SVG;
 
-int svg_create (SVG* svg, char* path) {
+typedef struct _SVG_PATH {
+    FIFO* fifo;
+} SVG_PATH;
+
+SVG* svg_create (char* path) {
     FILE *f = fopen(path, "w");
-    if (f == NULL) return 1;
+    if (!f) return NULL;
+
+    SVG* svg = malloc(sizeof(SVG));
+    if (!svg) return NULL;
 
     fprintf(f, "<?xml version=\"1.0\"?>\n");
     fprintf(f, "<svg xmlns=\"http://www.w3.org/2000/svg\">\n");
 
     svg->f = f;
 
-    return 0;
+    return svg;
 }
 
 int svg_finalize(SVG* svg) {
     fprintf(svg->f, "</svg>\n");
-    return fclose(svg->f);
+    int t = fclose(svg->f);
+    free(svg);
+    return t;
 }
 
-int avg_add(SVG* svg, SVG_ELEMENT* elem) {
-    switch (elem->type)
-    {
-    case RECT:
-        return svg_rect(svg, elem);
-    default:
-        break;
-    }
+SVG_PATH* svg_path_create() {
+    SVG_PATH* path = malloc(sizeof(SVG_PATH));
+    if (!path) return NULL;
+    path->fifo = FIFO_create();
+    if (!path->fifo) return NULL;
+    return path;
 }
 
-inline int svg_rect(SVG* svg, SVG_ELEMENT* elem) {
-    SVG_RECT rect = *((SVG_RECT*) elem->element);
-    if (rect.width < 0 || rect.height < 0) return 1;
-    fprintf(svg->f, "<rect x=\"%f\" y=\"%f\" width=\"%f\" height=\"%f\" %s/>\n", rect.x, rect.y, rect.width, rect.height, STD_STYLE);
-    return 0;
+void svg_path_destroy(SVG_PATH* path) {
+    FIFO_destroy(path->fifo, true);
+    free(path);
 }
