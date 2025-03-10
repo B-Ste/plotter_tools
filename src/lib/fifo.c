@@ -28,17 +28,20 @@ FIFO* FIFO_create() {
 
 /*
     Destroys FIFO and frees used memory.
+
     Arguments:
         - f : FIFO to be destroyed
         - r : Set to true to also free saved pointers.
+        - c_free : supply custom free-function for elements
+
     Returns: nothing
 */
-void FIFO_destroy(FIFO* f, bool r) {
+void FIFO_destroy_custom(FIFO* f, bool r, void (*c_free)(void*)) {
     if (f->size > 0) {
         FIFO_ELEMENT* e = f->head;
         do {
             FIFO_ELEMENT* tmp = e->next;
-            if (r) free(e->element);
+            if (r) c_free(e->element);
             free(e);
             e = tmp;
         } while (e);
