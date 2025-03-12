@@ -5,21 +5,17 @@ typedef struct _SVG {
 } SVG;
 
 typedef struct _SVG_PATH {
-    FIFO* fifo;
+    LIST* list;
 } SVG_PATH;
 
 SVG* svg_create (char* path) {
     FILE *f = fopen(path, "w");
     if (!f) return NULL;
-
     SVG* svg = malloc(sizeof(SVG));
     if (!svg) return NULL;
-
     fprintf(f, "<?xml version=\"1.0\"?>\n");
     fprintf(f, "<svg xmlns=\"http://www.w3.org/2000/svg\">\n");
-
     svg->f = f;
-
     return svg;
 }
 
@@ -33,18 +29,18 @@ int svg_finalize(SVG* svg) {
 SVG_PATH* svg_path_create() {
     SVG_PATH* path = malloc(sizeof(SVG_PATH));
     if (!path) return NULL;
-    path->fifo = FIFO_create();
-    if (!path->fifo) return NULL;
+    path->list = list_create();
+    if (!path->list) return NULL;
     return path;
 }
 
 void svg_path_destroy(SVG_PATH* path) {
-    FIFO_destroy(path->fifo, true);
+    list_destroy(path->list);
     free(path);
 }
 
 int svg_path_add(SVG_PATH* path, SVG_PATH_ELEMENT* elem){
-    return FIFO_add(path->fifo, elem);
+    return list_append(path->list, elem);
 }
 
 SVG_PATH_ELEMENT* svg_path_element_create(double args[SVG_PATH_ELEMENT_ARG_NUM], SVG_PATH_ELEMENT_TYPE type) {

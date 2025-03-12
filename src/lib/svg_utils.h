@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "fifo.h"
+#include "list.h"
 
 #define STD_STYLE "fill=\"none\" stroke=\"black\" stroke-width=\"1\" vector-effect=\"non-scaling-stroke\""
 #define SVG_PATH_ELEMENT_ARG_NUM 7
