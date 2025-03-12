@@ -42,3 +42,14 @@ void svg_path_destroy(SVG_PATH* path) {
     FIFO_destroy(path->fifo, true);
     free(path);
 }
+
+int svg_path_add(SVG_PATH* path, SVG_PATH_ELEMENT* elem){
+    return FIFO_add(path->fifo, elem);
+}
+
+SVG_PATH_ELEMENT* svg_path_element_create(double args[SVG_PATH_ELEMENT_ARG_NUM], SVG_PATH_ELEMENT_TYPE type) {
+    SVG_PATH_ELEMENT* elem = malloc(sizeof(SVG_PATH_ELEMENT));
+    elem->type = type;
+    for (int i = 0; i < SVG_PATH_ELEMENT_ARG_NUM; i++) elem->args[i] = args[i];
+    return elem;
+}
