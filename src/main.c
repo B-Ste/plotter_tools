@@ -1,12 +1,14 @@
 #include <stdio.h>
 
 #include "lib/svg_utils.h"
+#include "lib/fifo.h"
+
+int test(int a[4]) {
+    printf("Called\n");
+    return 0;
+}
 
 int main(int argc, char const *argv[])
 {
-    SVG s;
-    svg_create(&s, "test.svg");
-    svg_rect(&s, 10.0, 10.0, 10.0, 10.0);
-    svg_finalize(&s);
     return 0;
 }
