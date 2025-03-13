@@ -3,6 +3,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <math.h>
 
 #include "list.h"
 
@@ -41,6 +42,7 @@ typedef struct {
 
 SVG* svg_create(char*);
 int svg_finalize(SVG*);
+int svg_add(SVG*, SVG_PATH*);
 
 SVG_PATH* svg_path_create();
 void svg_path_destroy(SVG_PATH*);
@@ -66,6 +68,7 @@ SVG_PATH_ELEMENT* svg_path_element_create(double[SVG_PATH_ELEMENT_ARG_NUM], SVG_
 #define svg_path_element_smooth_quad_bezier_rel(x, y) svg_path_element_create((double[]){x, y, 0, 0, 0, 0, 0}, SMOOTH_QUAD_BEZ_REL)
 #define svg_path_element_elliptical_arc(rx, ry, xar, laf, sf, x, y) svg_path_element_create((double[]){rx, ry, xar, laf, sf, x, y}, ELLIPTICAL_ARC)
 #define svg_path_element_elliptical_arc_rel(rx, ry, xar, laf, sf, x, y) svg_path_element_create((double[]){rx, ry, xar, laf, sf, x, y}, ELLIPTICAL_ARC_REL)
+
 #define svg_path_element_destroy(p) free(p)
 
 #endif

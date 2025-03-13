@@ -94,3 +94,10 @@ LIST* list_map(LIST* list, void* (*f)(void*)) {
     }
     return new_list;
 }
+
+/*
+    Returns the lists current legth.
+*/
+int32_t list_length(LIST* list) {
+    return list->length;
+}

@@ -14,5 +14,6 @@ void list_destroy(LIST*);
 int32_t list_append(LIST*, void*);
 void* list_get(LIST*, int32_t);
 LIST* list_map(LIST*, void* (*)(void*));
+int32_t list_length(LIST*);
 
 #endif
