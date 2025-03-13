@@ -69,6 +69,5 @@ int32_t list_append(LIST* list, void* element) {
         - NULL otherwise
 */
 void* list_get(LIST* list, int32_t i) {
-    if (i >= 0 && i < list->length) return list->content[i];
-    return NULL;
+    return (i >= 0 && i < list->length) ? list->content[i] : NULL;
 }
