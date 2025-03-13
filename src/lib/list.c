@@ -71,3 +71,26 @@ int32_t list_append(LIST* list, void* element) {
 void* list_get(LIST* list, int32_t i) {
     return (i >= 0 && i < list->length) ? list->content[i] : NULL;
 }
+
+/*
+    Creates a new list where function f is applied to each element. The original
+    list stays intact.
+
+    Arguments: 
+        - list to iterate over
+        - function f to apply to each element
+
+    Returns:
+        - Pointer to new list on success
+        - NULL otherwise
+*/
+LIST* list_map(LIST* list, void* (*f)(void*)) {
+    LIST* new_list = list_create();
+    if (!new_list) return NULL;
+    for (int i = 0; i < list->length; i++) {
+        void* cn = f(list->content[i]);
+        if (!cn) return NULL;
+        list_append(new_list, cn);
+    }
+    return new_list;
+}
