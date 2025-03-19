@@ -46,7 +46,7 @@ int svg_finalize(SVG* svg) {
 
 /*
     Returns the string-representation of a SVG path element.
- */
+*/
 void* svg_path_element_to_string(void* e) {
     SVG_PATH_ELEMENT* elem = (SVG_PATH_ELEMENT*) e;
     double max_arg = 0;
@@ -142,7 +142,7 @@ int svg_add(SVG* svg, SVG_PATH* path) {
     for (int i = 0; i < list_length(str_list); i++) {
         fprintf(svg->f, "%s", (char*) list_get(str_list, i));
     }
-    list_destroy(str_list);
+    list_destroy(str_list, 1);
     fprintf(svg->f,"\" %s />\n", STD_STYLE);
     return 0;
 }
@@ -163,17 +163,17 @@ SVG_PATH* svg_path_create() {
 }
 
 /*
-    Deallocates SVG path.
+    Deallocates SVG path. Also deallocates all elements contained in path.
 
     Argument: SVG path to destroy
 */
 void svg_path_destroy(SVG_PATH* path) {
-    list_destroy(path->list);
+    list_destroy(path->list, 1);
     free(path);
 }
 
 /*
-    Adds a SVG path-element to a SVG path
+    Adds a SVG path-element to a SVG path.
 
     Arguments:
         - path to add element to
@@ -204,4 +204,23 @@ SVG_PATH_ELEMENT* svg_path_element_create(double args[SVG_PATH_ELEMENT_ARG_NUM],
     elem->type = type;
     for (int i = 0; i < SVG_PATH_ELEMENT_ARG_NUM; i++) elem->args[i] = args[i];
     return elem;
+}
+
+
+/*
+    Creates SVG line element.
+
+    Arguments:
+        - x1, y1 start coordinates (absolute)
+        - x2, y2 end coordinates (absolute)
+
+    Returns:
+        - pointer to SVG line on success
+        - NULL otherwise
+*/
+SVG_LINE* svg_line(int32_t x1, int32_t y1, int32_t x2, int32_t y2) {
+    SVG_LINE* line = svg_path_create();
+    if (svg_path_add(line, svg_path_element_moveto(x1, y1))) return NULL;
+    if (svg_path_add(line, svg_path_element_lineto(x2, y2))) return NULL;
+    return line;
 }

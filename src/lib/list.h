@@ -9,7 +9,7 @@
 typedef struct _LIST LIST;
 
 LIST* list_create();
-void list_destroy(LIST*);
+void list_destroy(LIST*, int);
 
 int32_t list_append(LIST*, void*);
 void* list_get(LIST*, int32_t);

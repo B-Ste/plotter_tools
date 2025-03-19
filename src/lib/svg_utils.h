@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
+#include <inttypes.h>
 
 #include "list.h"
 
@@ -12,6 +13,7 @@
 
 typedef struct _SVG SVG;
 typedef struct _SVG_PATH SVG_PATH;
+typedef SVG_PATH SVG_LINE;
 
 typedef enum {
     MOVETO,
@@ -43,6 +45,8 @@ typedef struct {
 SVG* svg_create(char*);
 int svg_finalize(SVG*);
 int svg_add(SVG*, SVG_PATH*);
+
+SVG_LINE* svg_line(int32_t, int32_t, int32_t, int32_t);
 
 SVG_PATH* svg_path_create();
 void svg_path_destroy(SVG_PATH*);

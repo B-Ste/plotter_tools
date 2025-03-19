@@ -26,9 +26,12 @@ LIST* list_create() {
 /*
     Destroys (deallocates) a list.
 
-    Argument: List to destroy
+    Argument: 
+        - List to destroy
+        - Set to not 0 if contained items shall also be deallocated
 */
-void list_destroy(LIST* list) {
+void list_destroy(LIST* list, int inner) {
+    if (inner) for (int i = 0; i < list->length; i++) free(list->content[i]);
     free(list-> content);
     free(list);
 }
