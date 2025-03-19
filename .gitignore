@@ -55,3 +55,4 @@ build/
 *.svg
 *.wav
 .vscode
+.DS_Store
